@@ -1,6 +1,5 @@
-import { useRef } from 'react';
 import { motion } from 'framer-motion';
-import { Plus, Keyboard } from 'lucide-react';
+import { Plus } from 'lucide-react';
 import TaskList from './components/TaskList';
 import TaskForm from './components/TaskForm';
 import TaskFilter from './components/TaskFilter';
@@ -8,15 +7,12 @@ import ThemeToggle from './components/ThemeToggle';
 import UserSelector from './components/UserSelector';
 import { useTaskStore } from './store/taskStore';
 import { useUserStore } from './store/userStore';
-import { useKeyboardShortcuts } from './hooks/useKeyboardShortcuts';
 import { useTheme } from './hooks/useTheme';
 
 function App() {
-  const searchInputRef = useRef<HTMLInputElement>(null);
   const { openModal, resetFilter } = useTaskStore();
   const currentUserId = useUserStore((state) => state.currentUserId);
   useTheme(); // Initialize theme
-  useKeyboardShortcuts(searchInputRef);
 
   const handleUserChange = () => {
     resetFilter();
@@ -101,17 +97,6 @@ function App() {
         >
           <Plus size={24} />
         </motion.button>
-
-        {/* Keyboard shortcuts hint */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.5 }}
-          className="fixed bottom-8 left-8 text-xs text-gray-400 dark:text-gray-500 flex items-center gap-1"
-        >
-          <Keyboard size={14} />
-          <span>N 新建 | ↑↓ 选择 | E 编辑 | Enter 完成 | Delete 删除 | / 搜索</span>
-        </motion.div>
 
         {/* Modal */}
         <TaskForm />
